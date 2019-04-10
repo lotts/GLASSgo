@@ -21,14 +21,14 @@ python3 GLASSgo.py -d <path to NCBI nt database> -i <sRNA input in FASTA format>
 
 **Most important GLASSgo parameters:**
 ```text
--i input_file (single sRNA sequence in FASTA format)
--o output_file (optional, default: stdout)
--e E-Value (default: 1)
--p lower limit for pairwise identity (default: 52)
--g ACC-List (optional), (default: global search)
--d NCBI nt-database
--t number of threads for performing the BLAST search (default: 1)
--u upstream region (default: 0)
+-i    input_file (single sRNA sequence in FASTA format)
+-o    output_file (optional, default: stdout)
+-e    E-Value (default: 1)
+-p    lower limit for pairwise identity (default: 52)
+-g    path to ACC-List (optional)  (default: global search)
+-d    path to NCBI nt-database
+-t    number of threads for performing the BLAST search (default: 1)
+-u    upstream region (default: 0)
 ```
 
 
