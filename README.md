@@ -38,7 +38,7 @@ https://zenodo.org/record/1320180
 
 GLASSgo on DockerHub
 -------
-https://cloud.docker.com/u/lotts/repository/docker/lotts/glassgo_acc_version
+https://hub.docker.com/r/lotts/glassgo_acc_version
 
 GLASSgo Web-Server Version + interactive taxonomic tree viewer
 -------
