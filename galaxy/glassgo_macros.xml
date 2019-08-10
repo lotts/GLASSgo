@@ -1,0 +1,8 @@
+<macros>
+	 <token name="@VERSION@">1.5.2</token>
+	 <xml name="requirements">
+	 	<requirements>
+        	<container type="docker">lotts/glassgo_acc_version:latest</container>
+    	</requirements>
+    </xml>
+</macros>

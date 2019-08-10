@@ -1,0 +1,216 @@
+<tool id="glassgo" name="GLASSgo" version="@VERSION@">
+    <description>sRNA homolog finder</description>
+    <macros>
+        <import>glassgo_macros.xml</import>
+    </macros>
+    <expand macro="requirements"/>
+    <command detect_errors="aggressive">
+        <![CDATA[
+        GLASSgo.py
+            -t \${GALAXY_SLOTS:-Z} 
+            -i ${input_data.input} 
+            -d ${input_data.database}
+            #if str($search.cond_param_setup.param_setup) == "manual":
+                -e ${search.cond_param_setup.evalue}
+                -p ${search.cond_param_setup.identity}
+            #end if
+            -u ${additional_setting.upstream_region}
+            #if str($search.cond_taxon_setup.taxon_setup) == "acclist":
+                -g ${search.cond_taxon_setup.acclist}
+            #end if
+            -n 500
+            -o $output
+        ]]>     
+    </command>
+    <inputs>
+        <section name="input_data" title="Input" expanded="true">
+            <param name="input" type="data" format="fasta" label="Query sRNA in FASTA" />
+            <param name="database" type="select" display="radio" label="NCBI-nt database">
+                <options from_file="blastdb.loc">
+                    <column name="name" index="1"/>
+                    <column name="value" index="2"/>
+                </options>
+            </param>
+        </section>
+        <section name="search" title="Search Parameters" expanded="true">
+            <conditional name="cond_taxon_setup">
+                <param name="taxon_setup" type="select" label="Taxon Selection">
+                    <option value="global">global search</option>
+                    <option value="acc">accession list from user history</option>
+                </param>
+                    <when value="acc">
+                        <param name="acclist" type="data" format="txt" label="Accession List" />    
+                    </when>
+            </conditional>
+            <conditional name="cond_param_setup">
+                <param name="param_setup" type="select" display="radio" label="Parameter Setup">
+                    <option value="automatic">automatic</option>
+                    <option value="manual">manual</option>
+                </param>
+                <when value="manual">
+                    <param name="evalue" type="float" value="1.0" label="Maximum allowed E-Value" />
+                    <param name="identity" type="integer" value="52" label="Minimum allowed identity [%]" />                
+                        <conditional name="cond_clust_setup">
+                            <param name="clust_setup" type="select" display="radio" label="Structure-based clustering">
+                                <option value="off">off</option>
+                                <option value="on">on</option>
+                            </param>
+                            <when value="on">
+                                <section name="clustering" title="Structure-based Clustering" expanded="true">
+                                    <conditional name="conditional_filtering_setup">
+                                        <param name="filtering_setup" type="select" display="radio" label="Structure-based filtering">
+                                            <option value="automatic">automatic</option>
+                                            <option value="manual">manual</option>
+                                        </param>
+                                        <when value="manual">
+                                            <param name="filtering" type="integer" value="2" label="manual value for filtering" />    
+                                        </when>
+                                    </conditional>
+                                </section>
+                            </when>
+                        </conditional>
+                </when>    
+            </conditional>
+        </section>
+        <section name="additional_setting" title="Additional Settings" expanded="true">
+            <param name="upstream_region" type="integer" value="0" label="Include upstream region">
+                <validator type="in_range" min="0" message="Value must be positive" />
+            </param>
+        </section>
+    </inputs>
+    <outputs>
+        <data name="output" format_source="input" />
+    </outputs>
+    <tests>
+        <test>
+            <param name="input" value="NsiR4_Synechocystis_sp_PCC6803.fa" />
+            <param name="taxon_setup" value="global" />
+            <param name="param_setup" value="automatic" />   
+            <param name="upstream_region" value="0" />
+            <output name="output" file="glassgo_NsiR4_Synechocystis_sp_PCC6803.fa" />
+        </test>
+    </tests>
+    <help>
+<![CDATA[
+**Introduction**
+
+GLASSgo (GLobal Automated sRNA Search go) combines iterative BLAST searches, pairwise identity filtering, and structure based clustering in an automated prediction pipeline to find sRNA homologs from scratch. The web server provides predefined parameter sets for a non-expert usage as well as enables a manual setup of the query parameters. The returned GLASSgo result is in FASTA format, whereby the first entry represents the input sequence.
+
+
+**Input**
+
+- **Query sRNA in FASTA**
+    The (single) sRNA sequence has to be provided in FASTA format. Input can be given either as direct text input or by uploading a file. A sequence in FASTA format begins with a single-line sequence 
+    identifier that starts with a greater-than (">") symbol, followed by lines of sequence data. For readability, it is recommended that each line is at most 80 characters in length.
+
+    .. class:: warningmark 
+
+    The parameter constraints are: The input has to be in valid FASTA format. The number of sequences has to be at least 1 and at most 1. Sequence lengths have to be in the range 20-800. The allowed sequence alphabet is 'ACGUTacgut'. 
+
+- **NCBI Nucloetide database**
+    The (latest) NCBI Nucleotide database. 
+
+**Search Parameters**
+
+- **Taxon selection**
+    The GLASSgo search is by default based on the complete NCBI Nucleotide database. In general, sRNAs show a limited distribution among the phylogenetic tree, such that a targeted search in a specfic taxonomic group is likely to perform better. For that, we provide accession lists for the taxonomic groups the search should
+    be limited to. The accession list can be found at https://zenodo.org/record/1320180.
+
+   
+
+- **Parameter Setup**
+    You can run GLASSgo either in automated mode or you can manually set the advanced parameters.
+
+- **Maximum allowed E-value**
+    The E-value mainly influences the sensitivity of GLASSgo. A relaxed E-value (>1.0) increases the chance to get more sequences, but also increases computation time. 
+
+    .. class:: warningmark
+
+    The parameter constraints are: Input value has to be parsable as a Double. The value must be smaller than or equal to 50. 
+
+- **Minimum allowed identity[%]**
+    Each sRNA candidate is compared to the query sRNA on sequence level and should have a percent identity larger than the value of this parameter to be kept for further 
+    analysis. Please note, that values lower than 65% increase the total number of hits, but also slightly increase the probability for false positives. 
+
+    .. class:: warningmark
+
+    The parameter constraints are: Input value has to be parsable as a Double. The value must be greater than or equal to 10 and must be smaller than or equal to 75.
+
+- **Structure-based clustering**
+    Defines whether or not structural clustering (via Londen) is to be applied. 
+
+    .. class:: warningmark
+
+
+**Structure-based clustering**
+
+- **Structure-based filtering**
+    Structure-based filtering can either be done automatically or you can set manually an according structure-based filtering value (see according parameter).
+
+- **Manual value for filtering**
+    The structure-based filtering represents the third filtering step of GLASSgo and is applied to the candidate hits with medium percent identity (80% > %ID > min_identity). 
+    Lowering the parameter value will result in a more strict analysis (less false positives) and vice versa. 
+
+    .. class:: warningmark
+
+    The parameter constraints are: Input value has to be parsable as a Double. The value must be greater than or equal to 0 and must be smaller than or equal to 3.
+
+**Additional Settings**
+
+- **Include upstream region** 
+    Setting the parameter 'Upstream Region' to 100 extracts 100 nucleotides upstream for each predicted GLASSgo hit. This additionally sequence information is directly 
+    concatenated with the corresponding GLASSgo hit and therefore an integral part of the returned GLASSgo results. Note: The upstream region is not considered while the 
+    similarity value [%] is computed! In addition, the FASTA header (e.g. start position) for each GLASSgo hit will be updated (if upstream region is activated), whereas 
+    the upstream region is additionally mentioned like -UTR-REGION-100nt:1002422-1002521-. You can find further information about the GLASSgo results in the output help 
+    section. (0 == no consideration). 
+
+
+**Output Description**
+
+The output of GLASSgo is a file in multi-FASTA format where the input sequence (query) is followed by the identified homologs. If no homologs could be found, only the input sequence is shown. In the following the output format will be discussed using two examples. Both examples show a partial result of GLASSgo applying EcpR1. In the first example,the upstream region was turned off while the value for the upstream region was set to 100 nt for the second. For this very reason, the headers as well as the sequence sizes are unequal.
+
+The following header shows the Accession number of the respective genome followed by the genomic coordinates of the proposed sRNA homolog (no upstream region included).
+
+>CP013051.1:1422247-1422417 Sinorhizobium americanum CCGM7, complete genome-p.c.VAL:80.75%-taxID:1408224
+AAAGGAAGTGAGACTTCCACGATCGATCGGTTACCCCATGATGCTCAGGTCCGCCGCATCTCCTGGGTCGTGGGGTCGGTCGGCTGGCTTCCGACATCCGCGGATTCCTCGTGCCGCAGTCGGAGCCAGCCGACCCCCTTTCAAAACGCCGCTTCAAAAGAGGCGGCGTTT
+
+In contrast, the next header shows the genomic coordinates of the combined upstream region (100nt) and the proposed sRNA. The exact coordinates of the upstream region are given later in the header (UPSTREAM-REGION-100nt:1422147-1422246).
+
+>CP013051.1:1422147-1422417 Sinorhizobium americanum CCGM7, complete genome-UPSTREAM-REGION-100nt:1422147-1422246-p.c.VAL:80.75%-taxID:1408224
+ATTTGTCCGAATACGAGACAGAATTAACCAAACGCCGAGCAACCCGCTTCGGCGATTAAGAATTCGTTGATTTTTTTTTATTTTCAAGCAATGCTGATATAAAGGAAGTGAGACTTCCACGATCGATCGGTTACCCCATGATGCTCAGGTCCGCCGCATCTCCTGGGTCGTGGGGTCGGTCGGCTGGCTTCCGACATCCGCGGATTCCTCGTGCCGCAGTCGGAGCCAGCCGACCCCCTTTCAAAACGCCGCTTCAAAAGAGGCGGCGTTT
+
+Both examples contain the name of the genome entry and a pairwise similarity value of p.c.Val:80.75% (query vs. GLASSgo hit ) as well as their corresponding taxonomic number taxID:1408224. 
+
+]]>
+    </help>
+    <citations>
+        <citation type="bibtex">
+            @article{10.3389/fgene.2018.00124,
+                author={Lott, Steffen C. and Schäfer, Richard A. and Mann, Martin and Backofen, Rolf and Hess, Wolfgang R. and Voß, Björn and Georg, Jens},   
+                title={GLASSgo – Automated and Reliable Detection of sRNA Homologs From a Single Input Sequence},      
+                journal={Frontiers in Genetics},      
+                volume={9},      
+                pages={124},     
+                year={2018},      
+                url={https://www.frontiersin.org/article/10.3389/fgene.2018.00124},       
+                doi={10.3389/fgene.2018.00124}
+            }
+        </citation>
+        <citation type="bibtex">
+            @article{Raden-2018-websrv,
+                author = {Raden, Martin and Ali, Syed M and Alkhnbashi, Omer S and Busch, Anke and Costa, Fabrizio and Davis, Jason A and Eggenhofer, Florian and Gelhausen, 
+                Rick and Georg, Jens and Heyne, Steffen and Hiller, Michael and Kundu, Kousik and Kleinkauf, Robert and Lott, Steffen C and Mohamed, Mostafa M and Mattheis, 
+                Alexander and Miladi, Milad and Richter, Andreas S and Will, Sebastian and Wolff, Joachim and Wright, Patrick R and Backofen, Rolf},
+                title = {{Freiburg} {RNA} {tools}: a central online resource for {RNA}-focused research and teaching},
+                journal = {Nucleic Acids Research},
+                volume = {46},
+                number = {W1},
+                pages = {W25-W29},
+                year = {2018},
+                doi = {10.1093/nar/gky329}
+            }
+        </citation>
+    </citations>
+
+
+</tool>
