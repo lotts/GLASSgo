@@ -29,6 +29,7 @@
                 <options from_file="blastdb.loc">
                     <column name="name" index="1"/>
                     <column name="value" index="2"/>
+		    <filter type="regexp" value="nt_.*" column="0" />
                 </options>
             </param>
         </section>
