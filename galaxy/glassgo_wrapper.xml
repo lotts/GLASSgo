@@ -115,7 +115,7 @@ GLASSgo (GLobal Automated sRNA Search go) combines iterative BLAST searches, pai
 
 - **Taxon selection**
     The GLASSgo search is by default based on the complete NCBI Nucleotide database. In general, sRNAs show a limited distribution among the phylogenetic tree, such that a targeted search in a specfic taxonomic group is likely to perform better. For that, we provide accession lists for the taxonomic groups the search should
-    be limited to. The accession list can be found at https://zenodo.org/record/1320180.
+    be limited to. 
 
    
 
