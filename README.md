@@ -43,3 +43,7 @@ https://hub.docker.com/r/lotts/glassgo_acc_version
 GLASSgo Web-Server Version + interactive taxonomic tree viewer
 -------
 http://rna.informatik.uni-freiburg.de/GLASSgo/
+
+GLASSgo within Galaxy
+-------
+https://github.com/lotts/GLASSgo_ACC-Version/tree/master/galaxy

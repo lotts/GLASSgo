@@ -15,9 +15,9 @@
                 -p ${search.cond_param_setup.identity}
             #end if
             -u ${additional_setting.upstream_region}
-            #if str($search.cond_taxon_setup.taxon_setup) == "acclist":
-                -g ${search.cond_taxon_setup.acclist}
-            #end if
+            #if str($search.acclist) != "global":
+                -g ${search.acclist}
+            #end if 
             -n 500
             -o $output
         ]]>     
@@ -29,20 +29,16 @@
                 <options from_file="blastdb.loc">
                     <column name="name" index="1"/>
                     <column name="value" index="2"/>
-		    <filter type="regexp" value="nt_.*" column="0" />
                 </options>
             </param>
         </section>
         <section name="search" title="Search Parameters" expanded="true">
-            <conditional name="cond_taxon_setup">
-                <param name="taxon_setup" type="select" label="Taxon Selection">
-                    <option value="global">global search</option>
-                    <option value="acc">accession list from user history</option>
-                </param>
-                    <when value="acc">
-                        <param name="acclist" type="data" format="txt" label="Accession List" />    
-                    </when>
-            </conditional>
+            <param name="acclist" type="select" label="Choose taxon">
+                <options from_file="glassgo_accession_list.txt">
+                    <column name="name" index="0"/>
+                    <column name="value" index="1"/>
+                </options>
+            </param>
             <conditional name="cond_param_setup">
                 <param name="param_setup" type="select" display="radio" label="Parameter Setup">
                     <option value="automatic">automatic</option>
