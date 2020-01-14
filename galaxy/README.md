@@ -18,12 +18,14 @@
 		[`glassgo_accession_list.txt`](./tool-data/glassgo_accession_list.txt) 
 		Afterwards, copy the file into the folder `tool-data` of Galaxy (e.g., `/galaxy/tool-data/`) or
 	*	using the script
-		- use [`config_lookup`](./config_lookup) that downloads the lookup tables and creates `glassgo_accession_list.txt` in 
+		- use the `config_lookup` script that downloads the lookup tables and creates `glassgo_accession_list.txt` in 
 		`tool-data` of the Galaxy instance. 
 
 	Restart Galaxy.
 
 ## config_lookup
+We provide the source file `config_lookup` as well as a one-file bundled executable `config_lookup`
+ 
 ```
 usage: config_lookup [-h] --galaxy GALAXY [--acclinks ACCLINKS --acclists ACCLISTS]
 
