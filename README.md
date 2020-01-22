@@ -32,6 +32,7 @@ python3 GLASSgo.py -d <path to NCBI nt database> -i <sRNA input in FASTA format>
 ```
 
 We provide a video that guides through the setup & usage of GLASSgo.
+
 Schäfer, R.A, Lott, S.C. et. al (2020) "GLASSgo Setup & Usage", https://doi.org/10.18419/darus-517, DaRUS, V1
 
 ACC-Lists on Zenodo
@@ -46,6 +47,9 @@ GLASSgo Web-Server Version + interactive taxonomic tree viewer
 -------
 http://rna.informatik.uni-freiburg.de/GLASSgo/
 
+GLASSgo on the RNA Workbench Server
+-----------------------------------
+[https://rna.usegalaxy.eu/](https://rna.usegalaxy.eu/tool_runner?tool_id=toolshed.g2.bx.psu.edu%2Frepos%2Fcomputationaltranscriptomics%2Fglassgo%2Fglassgo%2F1.5.2)
 GLASSgo within Galaxy
 -------
 https://github.com/lotts/GLASSgo_ACC-Version/tree/master/galaxy
