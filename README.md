@@ -50,6 +50,7 @@ http://rna.informatik.uni-freiburg.de/GLASSgo/
 GLASSgo on the RNA Workbench Server
 -----------------------------------
 [https://rna.usegalaxy.eu/](https://rna.usegalaxy.eu/tool_runner?tool_id=toolshed.g2.bx.psu.edu%2Frepos%2Fcomputationaltranscriptomics%2Fglassgo%2Fglassgo%2F1.5.2)
+
 GLASSgo within Galaxy
 -------
 https://github.com/lotts/GLASSgo_ACC-Version/tree/master/galaxy
