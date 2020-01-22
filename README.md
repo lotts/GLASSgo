@@ -31,6 +31,8 @@ python3 GLASSgo.py -d <path to NCBI nt database> -i <sRNA input in FASTA format>
 -u    upstream region (default: 0)
 ```
 
+We provide a video that guides through the setup & usage of GLASSgo.
+Schäfer, R.A, Lott, S.C. et. al (2020) "GLASSgo Setup & Usage", https://doi.org/10.18419/darus-517, DaRUS, V1
 
 ACC-Lists on Zenodo
 -------

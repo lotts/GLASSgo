@@ -24,7 +24,7 @@
 	Restart Galaxy.
 
 ## config_lookup
-We provide the source file `config_lookup` as well as a one-file bundled executable `config_lookup`
+We provide the source file `config_lookup.py` as well as a one-file bundled executable `config_lookup`
  
 ```
 usage: config_lookup [-h] --galaxy GALAXY [--acclinks ACCLINKS --acclists ACCLISTS]
