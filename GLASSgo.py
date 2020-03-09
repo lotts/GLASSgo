@@ -557,7 +557,7 @@ def call_londen(input_fasta_file, in_directly_stored_lum, area_filter, cutting_m
             area_filter = 2.4
 
     scriptPath = os.path.dirname(os.path.realpath(__file__))
-    act_args = shlex.split(str(scriptPath) + "/reqPackages/londen -f " + str(input_fasta_file) + " -t " + str(area_filter) + " -m " + str(cutting_method))
+    act_args = shlex.split(str(scriptPath) + "/reqPackages/londen.pl -f " + str(input_fasta_file) + " -t " + str(area_filter) + " -m " + str(cutting_method))
     p = subprocess.Popen(act_args, stdout=PIPE)
     (output, err) = p.communicate()
     p.wait()
