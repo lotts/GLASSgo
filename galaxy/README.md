@@ -11,10 +11,10 @@
     ```
     More information can be found in the [./config/job_conf.xml.sample_advanced](https://github.com/galaxyproject/galaxy/blob/release_18.09/config/job_conf.xml.sample_advanced#L378) of any Galaxy instance. Obviously, the exposed folder needs to be identical with the path specified in `tool-data/blastdb.loc`. Here the local folder `Volumes/TC1/nt` contains the BLAST database and is exposed to the Docker container. In this case, the folder is bound to the same location in the container. This allows to execute the GLASSgo call in the tool XML file directly with the selected option.
 
-2.	Install GLASSgo from the [Galaxy Toolshed](https://toolshed.g2.bx.psu.edu/view/computationaltranscriptomics/glassgo). Afterwards, the Galaxy instance
+2.	Install GLASSgo from the [Galaxy Toolshed](https://toolshed.g2.bx.psu.edu/view/computationaltranscriptomics/glassgo) and go to the installation folder (as specified in `shed_tools.conf`). Afterwards, the Galaxy instance
 	needs to be configured such that it is aware of the accession lists. This can be done either manually or using a custom script.
 	*	manually
-		- download the accession lists from Zenodo (https://zenodo.org/record/1320180) and add the corresponding paths to the file  
+		- download the accession lists from Zenodo (https://zenodo.org/record/1320180) and add the corresponding paths (absolute) to the file  
 		[`glassgo_accession_list.txt`](./tool-data/glassgo_accession_list.txt) 
 		Afterwards, copy the file into the folder `tool-data` of Galaxy (e.g., `/galaxy/tool-data/`) or
 	*	using the script
