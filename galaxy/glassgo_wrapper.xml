@@ -13,6 +13,16 @@
             #if str($search.cond_param_setup.param_setup) == "manual":
                 -e ${search.cond_param_setup.evalue}
                 -p ${search.cond_param_setup.identity}
+                #if str($search.cond_param_setup.cond_clust_setup.clust_setup) == "off":
+                	-l 0
+                #else:
+                	-l 2
+                	#if str($search.cond_param_setup.cond_clust_setup.clustering.conditional_filtering_setup.filtering_setup) == "manual":
+                		-a ${search.cond_param_setup.cond_clust_setup.clustering.conditional_filtering_setup.filtering}
+                	#else:
+                		-a -1
+                	#end if
+                #end if
             #end if
             -u ${additional_setting.upstream_region}
             #if str($search.acclist) != "global":
@@ -50,7 +60,7 @@
                         <conditional name="cond_clust_setup">
                             <param name="clust_setup" type="select" display="radio" label="Structure-based clustering">
                                 <option value="off">off</option>
-                                <option value="on">on</option>
+                                <option value="on" selected="true">on</option>
                             </param>
                             <when value="on">
                                 <section name="clustering" title="Structure-based Clustering" expanded="true">
