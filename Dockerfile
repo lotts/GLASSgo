@@ -1,13 +1,14 @@
 ############################################################
 # Dockerfile to build GLASSgo Containers
 # Based on Ubuntu
+# v0.1.0
 ############################################################
 
 # Set the base image to Ubuntu
 FROM ubuntu:19.10
 
 # File Author / Maintainer
-MAINTAINER Steffen C. Lott
+LABEL authors="Steffen C. Lott"
 
 # Set the working directory.
 WORKDIR /usr/src/GLASSgo
@@ -41,7 +42,8 @@ ADD ./README.md .
 ADD ./GLASSgoTestSuite/ ./GLASSgoTestSuite/
 
 # Modify GLASSgo.py script
-RUN chmod +x /usr/src/GLASSgo/GLASSgo.py
+RUN chmod +x ./GLASSgo.py
+RUN chmod +x ./reqPackages/londen.pl
 
-# Define Entrypoint
-ENTRYPOINT ["/usr/src/GLASSgo/GLASSgo.py"]
+# Set ENV Variables
+ENV PERL5LIB=/usr/src/GLASSgo/reqPackages:$PERL5LIB
