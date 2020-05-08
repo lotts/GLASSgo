@@ -55,7 +55,7 @@ def compute_new_min_identity(in_seq_len):
 
 
 def analyze_input_sequence(in_seek_seq):
-    f_fasta = open(in_seek_seq, 'rU')
+    f_fasta = open(in_seek_seq, 'r', newline='')
     seek_id = ""
     seek_seq = ""
     seek_seq_len = 0
@@ -169,7 +169,7 @@ def extent_reads_from_blast_table(in_seek_seq, blast, db, e_value, utr_region):
     e_pos_utr = 0
 
     # read files
-    f_fasta = open(in_seek_seq, 'rU')
+    f_fasta = open(in_seek_seq, 'r', newline='')
     for record in SeqIO.parse(f_fasta, "fasta"):
         seek_seq = record.seq
         seek_length = len(seek_seq)
@@ -268,7 +268,7 @@ def extent_reads_from_blast_table(in_seek_seq, blast, db, e_value, utr_region):
 
 
 def global_alignment(in_seek_seq, array_fasta):
-    f_fasta = open(in_seek_seq, 'rU')
+    f_fasta = open(in_seek_seq, 'r', newline='')
     seek_seq = ""
     for record in SeqIO.parse(f_fasta, "fasta"):
         seek_seq = record.seq
@@ -436,7 +436,7 @@ def create_input_for_londen(in_seek_seq, in_directly_stored, in_directly_stored_
 
     # store data to file - compressed Londen data + seed + max. 10 seqs of trustable reads (s0 (query),s1, ... , s9)
     # trustable_hits are needed!
-    f_fasta = open(in_seek_seq, 'rU')
+    f_fasta = open(in_seek_seq, 'r', newline='')
     seek_seq = ""
     for record in SeqIO.parse(f_fasta, "fasta"):
         seek_seq = record.seq
@@ -610,7 +610,7 @@ def merge_preselection_and_londen(in_only_for_final_output, in_londen_result):
 
 
 def create_final_output(in_seek_seq, final_cure_ids, merged_final_result, out_path):
-    f_fasta = open(in_seek_seq, 'rU')
+    f_fasta = open(in_seek_seq, 'r', newline='')
     seek_id = ""
     seek_seq = ""
     for record in SeqIO.parse(f_fasta, "fasta"):
