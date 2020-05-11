@@ -41,9 +41,10 @@ ADD ./LICENSE .
 ADD ./README.md .
 ADD ./GLASSgoTestSuite/ ./GLASSgoTestSuite/
 
-# Modify GLASSgo.py script
+# Change Script permissions
 RUN chmod +x ./GLASSgo.py
 RUN chmod +x ./reqPackages/londen.pl
+RUN chmod +x ./GLASSgoTestSuite/GLASSgoTest.py
 
 # Set ENV Variables
 ENV PERL5LIB=/usr/src/GLASSgo/reqPackages:$PERL5LIB

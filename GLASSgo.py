@@ -668,8 +668,8 @@ if __name__ == "__main__":
     parser.add_argument("-t", "--num_threads", help="Number of threads", type=int, default=1)
     parser.add_argument("-r", "--blast_runs", help="Maximum number of BLAST runs", type=int, default=2)
     parser.add_argument("-a", "--area_filter", help="Filter distance for Londen ('-1' => auto adjusted)", type=float, default=-1)
-    parser.add_argument("-p", "--min_identity", help="Lower limit for identity (0 - 100)%, default -1 (auto mode)", type=float, default=52)
-    parser.add_argument("-m", "--max_identity", help="Upper limit for Londen (0 - 100)%, default 80%", type=float, default=80)
+    parser.add_argument("-p", "--min_identity", help="Lower limit for identity (0 - 100) %%, default -1 (auto mode)", type=float, default=52)
+    parser.add_argument("-m", "--max_identity", help="Upper limit for Londen (0 - 100) %%, default 80 %%", type=float, default=80)
     parser.add_argument("-n", "--max_target_seqs", help="Maximum number of aligned sequences to keep, default 2000", type=int, default=2000)
     parser.add_argument("-s", "--secure_mode", help="The secure mode ensures that the number of new queries are "
                                                     "limited. (default \"on\", \"off\")", type=str, default="on")
