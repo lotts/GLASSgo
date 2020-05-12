@@ -29,17 +29,18 @@ SOFTWARE.
 #export PERL5LIB=/Users/steffen/Developing/Python/GLASSgo/GITHUB/Bionfo_Galaxy_Version/GLASSgo/reqPackages:$PERL5LIB
 
 if __name__ == "__main__":
+    scriptPath = os.path.dirname(os.path.realpath(__file__))
+    scriptPathGLASSgo = os.path.abspath(os.path.join(__file__, "../.."))
+
     parser = argparse.ArgumentParser()
-    parser.add_argument("-f", "--glassgoFile", help="Path to GLASSgo.py", type=str, default="../GLASSgo.py")
-    parser.add_argument("-i", "--inputFile", help="Path to test input FASTA file", type=str, default="./data/input/test.fasta")
-    parser.add_argument("-d", "--dbFile", help="Path to test DB", type=str, default="./data/db/test.fasta")
-    parser.add_argument("-t", "--testMD5", help="Path to MD5 Files", type=str, default="./data/precomputed/")
+    parser.add_argument("-f", "--glassgoFile", help="Path to GLASSgo.py", type=str, default=str(scriptPathGLASSgo) + "/GLASSgo.py")
+    parser.add_argument("-i", "--inputFile", help="Path to test input FASTA file", type=str, default=str(scriptPath) + "/data/input/test.fasta")
+    parser.add_argument("-d", "--dbFile", help="Path to test DB", type=str, default=str(scriptPath) + "/data/db/test.fasta")
+    parser.add_argument("-t", "--testMD5", help="Path to MD5 Files", type=str, default=str(scriptPath) + "/data/precomputed/")
     args = parser.parse_args()
 
-
-
     # 1. Test -> Call "GLASSgo.py -h"
-    value = os.system(str(args.glassgoFile) + " -h > /dev/null " )
+    value = os.system(str(args.glassgoFile) + " -h > /dev/null ")
     if value == 0:
         sys.stderr.write("==> TEST-1-PASSED: GLASSgo.py -h is executable.\n")
     else:
@@ -58,7 +59,7 @@ if __name__ == "__main__":
     os.system(str(args.glassgoFile) + " -i " + str(args.inputFile) + " -d " + str(args.dbFile) + " -l 0 -o withoutLonden")
     value = os.system("md5sum -c " + str(args.testMD5) + "defaultSettings_LondenOFF.md5 > /dev/null")
     if value == 0:
-        sys.stderr.write("==> TEST-3-PASSED: GLASSgo.py run without Londen parameters\n")
+        sys.stderr.write("==> TEST-3-PASSED: GLASSgo.py run without Londen\n")
     else:
         sys.stderr.write("==> TEST-3-ERROR: GLASSgo.py run without Londen failed. MD5SUM differs! (./data/precomputed/defaultSettings_LondenOFF.md5)\n")
     os.system("rm withoutLonden")
