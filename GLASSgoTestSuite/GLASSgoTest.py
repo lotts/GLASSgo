@@ -63,3 +63,39 @@ if __name__ == "__main__":
     else:
         sys.stderr.write("==> TEST-3-ERROR: GLASSgo.py run without Londen failed. MD5SUM differs! (./data/precomputed/defaultSettings_LondenOFF.md5)\n")
     os.system("rm withoutLonden")
+
+    # 4. Test -> Call "GLASSgo.py" with single cut method (-l 1)
+    os.system(str(args.glassgoFile) + " -i " + str(args.inputFile) + " -d " + str(args.dbFile) + " -l 1 -o londenSingleCut")
+    value = os.system("md5sum -c " + str(args.testMD5) + "defaultSettings_LondenSingleCut.md5 > /dev/null")
+    if value == 0:
+        sys.stderr.write("==> TEST-4-PASSED: GLASSgo.py run with Londen Single Cut method (-l 1)\n")
+    else:
+        sys.stderr.write("==> TEST-4-ERROR: GLASSgo.py run with Londen Single Cut method failed. MD5SUM differs! (./data/precomputed/defaultSettings_LondenSingleCut.md5)\n")
+    os.system("rm londenSingleCut")
+
+    # 5. Test -> Call "GLASSgo.py" default settings with upstream region (-u 100)
+    os.system(str(args.glassgoFile) + " -i " + str(args.inputFile) + " -d " + str(args.dbFile) + " -u 100 -o upstreamRegion")
+    value = os.system("md5sum -c " + str(args.testMD5) + "defaultSettings_upstream.md5 > /dev/null")
+    if value == 0:
+        sys.stderr.write("==> TEST-5-PASSED: GLASSgo.py run with default settings + extracting upstream region of 100 nucleotides (-u 100)\n")
+    else:
+        sys.stderr.write("==> TEST-5-ERROR: GLASSgo.py run with default settings + extracting upstream region of 100 nucleotides failed. MD5SUM differs! (./data/precomputed/defaultSettings_upstream.md5)\n")
+    os.system("rm upstreamRegion")
+
+    # 6. Test -> Call "GLASSgo.py" default settings with modified area filter (-a 0.1)
+    os.system(str(args.glassgoFile) + " -i " + str(args.inputFile) + " -d " + str(args.dbFile) + " -a 0.1 -o areaFilter")
+    value = os.system("md5sum -c " + str(args.testMD5) + "defaultSettings_areaFilter.md5 > /dev/null")
+    if value == 0:
+        sys.stderr.write("==> TEST-6-PASSED: GLASSgo.py run with default settings + modified area filter (-a 0.1)\n")
+    else:
+        sys.stderr.write("==> TEST-6-ERROR: GLASSgo.py run with default settings + modified area filter failed. MD5SUM differs! (./data/precomputed/defaultSettings_areaFilter.md5)\n")
+    os.system("rm areaFilter")
+
+    # 7. Test -> Call "GLASSgo.py" default settings with modified E-Value (-e 0.000001)
+    os.system(str(args.glassgoFile) + " -i " + str(args.inputFile) + " -d " + str(args.dbFile) + " -e 0.000001 -o eValue")
+    value = os.system("md5sum -c " + str(args.testMD5) + "defaultSettings_eValue.md5 > /dev/null")
+    if value == 0:
+        sys.stderr.write("==> TEST-7-PASSED: GLASSgo.py run with default settings + modified E-Value (-e 0.000001)\n")
+    else:
+        sys.stderr.write("==> TEST-7-ERROR: GLASSgo.py run with default settings + modified E-Value failed. MD5SUM differs! (./data/precomputed/defaultSettings_eValue.md5)\n")
+    os.system("rm eValue")
