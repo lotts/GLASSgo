@@ -1,6 +1,6 @@
 # GLASSgoTest.py
 
-** Applied Tests:**
+**Applied Tests:**
 - Check if GLASSgo.py -h is executable
 - Check if GLASSgo.py works with default parameters (GLASSgo.py -i <INPUT> -d <DB>)
 - Check if GLASSgo.py works with deactivated Londen analysis (GLASSgo.py -i <INPUT> -d <DB> -l 0)
