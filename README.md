@@ -1,5 +1,6 @@
 # GLASSgo
 GLASSgo (GLobal Automated sRNA Search go) combines iterative BLAST searches, pairwise identity filtering, and structure based clustering in an automated prediction pipeline to find sRNA homologs from scratch. The returned GLASSgo result is in FASTA format, whereby the first entry represents the input sequence. 
+Please cite us if your are using GLASSgo for your work (doi.org/10.3389/fgene.2018.00124).
 
 
 **Required packages:**
