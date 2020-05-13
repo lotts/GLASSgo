@@ -5,12 +5,12 @@ GLASSgo (GLobal Automated sRNA Search go) combines iterative BLAST searches, pai
 **Required packages:**
 - Python version >3.x
 - Perl version >5.x
-- Clustal Omega (http://www.clustal.org/omega/)
-- Biopython
-- Python3 'numpy' package
-- Bioperl
-- RNApdist (https://www.tbi.univie.ac.at/RNA/RNApdist.1.html)
-- BLAST+ version >2.7 (ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/)
+- Clustal Omega (http://www.clustal.org/omega/) version 1.2.4
+- Biopython version 1.76
+- Python3 'numpy' package version 1.17.4
+- Bioperl version 1.7.2
+- RNApdist (https://www.tbi.univie.ac.at/RNA/RNApdist.1.html)(viennarna version 2.4.14)
+- BLAST+ version 2.8.1 (ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/)
 - NCBI 'nt' database (ftp://ftp.ncbi.nlm.nih.gov/blast/db/)
 
 **Usage:**
