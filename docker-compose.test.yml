@@ -1,0 +1,4 @@
+# automated repository test
+sut:
+    build: .
+    command: GLASSgoTestSuite/GLASSgoTest.py 
