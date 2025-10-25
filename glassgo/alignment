@@ -1,0 +1,156 @@
+"""Sequence alignment and identity calculation module."""
+
+from typing import List, Tuple
+from Bio import pairwise2
+import logging
+
+
+class AlignmentManager:
+    """Handles sequence alignment and identity calculations."""
+
+    def __init__(self):
+        self.logger = logging.getLogger(__name__)
+
+    def global_align_all(
+        self,
+        query_sequence: str,
+        candidates: List
+    ) -> List:
+        """
+        Perform global alignment for all candidates against query.
+
+        Args:
+            query_sequence: Reference sequence
+            candidates: List of SequenceCandidate objects
+
+        Returns:
+            List of candidates with updated identity scores
+        """
+        aligned_candidates = []
+
+        for candidate in candidates:
+            identity = self.calculate_identity(query_sequence, candidate.sequence)
+            candidate.identity = identity
+            aligned_candidates.append(candidate)
+
+        return high_sim, medium_sim, low_sim
+
+    def _parse_range(self, range_str: str) -> Tuple[float, float, int]:
+        """
+        Parse range string in format "start-end-max_hits".
+
+        Args:
+            range_str: Range specification string
+
+        Returns:
+            Tuple of (start, end, max_hits)
+        """
+        parts = range_str.split('-')
+        if len(parts) != 3:
+            raise ValueError(f"Invalid range format: {range_str}")
+
+        return float(parts[0]), float(parts[1]), int(parts[2]) aligned_candidates
+
+    def calculate_identity(self, seq1: str, seq2: str) -> float:
+        """
+        Calculate percentage identity using global alignment.
+
+        Args:
+            seq1: First sequence
+            seq2: Second sequence
+
+        Returns:
+            Percentage identity (0-100)
+        """
+        # Global alignment with match=2, mismatch=-1, gap_open=-0.5, gap_extend=-0.1
+        alignments = pairwise2.align.globalms(
+            seq1, seq2,
+            2,      # match score
+            -1,     # mismatch score
+            -0.5,   # gap open penalty
+            -0.1    # gap extend penalty
+        )
+
+        if not alignments:
+            return 0.0
+
+        # Get best alignment
+        aln1, aln2, score, begin, end = alignments[0]
+
+        # Calculate identity
+        matches = sum(a == b for a, b in zip(aln1, aln2))
+        identity = 100.0 * matches / len(aln1)
+
+        return round(identity, 2)
+
+    def classify_by_identity(
+        self,
+        candidates: List,
+        min_identity: float,
+        max_identity: float,
+        secure_mode: str,
+        range1: str,
+        range2: str,
+        range3: str
+    ) -> Tuple[List, List, List]:
+        """
+        Classify sequences into high, medium, and low similarity groups.
+
+        Args:
+            candidates: List of aligned candidates
+            min_identity: Minimum identity threshold
+            max_identity: Maximum identity for clustering
+            secure_mode: "on" to limit low similarity hits, "off" for all
+            range1-3: Identity ranges in format "start-end-max_hits"
+
+        Returns:
+            Tuple of (high_similarity, medium_similarity, low_similarity) lists
+        """
+        high_sim = []
+        medium_sim = []
+        low_sim = []
+
+        # Parse ranges
+        r1_start, r1_end, r1_max = self._parse_range(range1)
+        r2_start, r2_end, r2_max = self._parse_range(range2)
+        r3_start, r3_end, r3_max = self._parse_range(range3)
+
+        r1_count = 0
+        r2_count = 0
+        r3_count = 0
+
+        # Sort by identity (ascending) for consistent results
+        sorted_candidates = sorted(candidates, key=lambda x: x.identity)
+
+        for candidate in sorted_candidates:
+            identity = candidate.identity
+
+            # High similarity (>= max_identity)
+            if identity >= max_identity:
+                high_sim.append(candidate)
+
+            # Medium similarity (min <= identity < max)
+            elif min_identity <= identity < max_identity:
+                medium_sim.append(candidate)
+
+            # Low similarity (below min)
+            elif identity < min_identity and identity > 0:
+                # Apply secure mode filtering
+                if secure_mode == "on":
+                    # Range 1
+                    if r1_start > identity >= r1_end and r1_count < r1_max:
+                        low_sim.append(candidate)
+                        r1_count += 1
+                    # Range 2
+                    elif r2_start > identity >= r2_end and r2_count < r2_max:
+                        low_sim.append(candidate)
+                        r2_count += 1
+                    # Range 3
+                    elif r3_start > identity >= r3_end and r3_count < r3_max:
+                        low_sim.append(candidate)
+                        r3_count += 1
+                else:
+                    # Include all low similarity hits
+                    low_sim.append(candidate)
+
+        return
